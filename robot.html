@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notre Robot — Team Apex Dynamis</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--apex:#560075;--apex-glow:#c400ff;--gold:#f5c518;--white:#fff;--dark:#0a0010;--card:#130020;--text:#e0c8f0;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:.4;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:700;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(10,0,16,.92);backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,0,255,.12);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.5rem;}
+.nav-logo span{color:var(--apex-glow);}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.nav-back{display:flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.5);text-decoration:none;font-size:.78rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:all .3s;border:1px solid rgba(255,255,255,.1);padding:.38rem .9rem;border-radius:6px;}
+.nav-back:hover{color:var(--apex-glow);border-color:var(--apex-glow);}
+.nav-vote{background:var(--apex);color:var(--white)!important;padding:.42rem 1rem;border-radius:4px;border:1px solid var(--apex-glow);text-decoration:none;font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .3s;white-space:nowrap;}
+.nav-vote:hover{background:var(--apex-glow);box-shadow:0 0 18px rgba(196,0,255,.5);}
+
+/* PAGE HERO */
+.page-hero{min-height:45vh;display:flex;flex-direction:column;justify-content:flex-end;padding:8rem 2.5rem 3.5rem;position:relative;overflow:hidden;max-width:100%;}
+.page-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 30% 50%,rgba(86,0,117,.4) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 20%,rgba(196,0,255,.12) 0%,transparent 60%);}
+.page-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(196,0,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(196,0,255,.04) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 80% 80% at 30% 50%,black,transparent);}
+.page-hero-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto;width:100%;}
+.page-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(86,0,117,.3);border:1px solid rgba(196,0,255,.4);border-radius:50px;padding:.35rem 1rem;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--apex-glow);margin-bottom:1.2rem;}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);letter-spacing:4px;color:var(--white);line-height:.95;margin-bottom:.8rem;}
+.page-title span{color:var(--apex-glow);text-shadow:0 0 30px rgba(196,0,255,.5);}
+.page-subtitle{font-size:1rem;color:var(--text);opacity:.68;max-width:580px;line-height:1.7;}
+.page-hero::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(to right,transparent,rgba(196,0,255,.25),transparent);}
+
+/* SECTIONS */
+section{padding:4.5rem 2.5rem;max-width:1200px;margin:0 auto;}
+.section-label{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--apex-glow);letter-spacing:4px;text-transform:uppercase;margin-bottom:.7rem;opacity:.78;}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:3px;color:var(--white);margin-bottom:.8rem;line-height:1;}
+h3{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--white);margin-bottom:.5rem;}
+.divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(196,0,255,.18),transparent);}
+
+/* GALERIE PHOTOS */
+.gallery-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto;gap:1rem;margin:2rem 0;}
+.gallery-item{border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(196,0,255,.15);background:#000;cursor:pointer;transition:all .4s;}
+.gallery-item:hover{border-color:rgba(196,0,255,.5);box-shadow:0 8px 32px rgba(86,0,117,.4);}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.gallery-item:hover img{transform:scale(1.04);}
+.gallery-item.main{grid-row:span 2;min-height:380px;}
+.gallery-item.side{min-height:180px;}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,0,16,.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;}
+.gallery-item:hover .gallery-overlay{opacity:1;}
+.gallery-tag{position:absolute;bottom:.8rem;left:.9rem;font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.8);opacity:0;transform:translateY(6px);transition:all .3s;}
+.gallery-item:hover .gallery-tag{opacity:1;transform:translateY(0);}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:8000;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:88vh;border-radius:12px;border:1px solid rgba(196,0,255,.25);box-shadow:0 0 60px rgba(86,0,117,.5);}
+.lightbox-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-size:1.2rem;cursor:pointer;padding:0;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.lightbox-close:hover{background:rgba(196,0,255,.25);border-color:var(--apex-glow);color:var(--apex-glow);}
+
+/* COMPOSANTS */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:1.1rem;margin-top:2rem;}
+.comp-card{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:14px;padding:1.4rem;transition:all .3s;position:relative;overflow:hidden;}
+.comp-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--apex-glow),transparent);opacity:0;transition:opacity .3s;}
+.comp-card:hover{border-color:rgba(196,0,255,.32);transform:translateY(-3px);box-shadow:0 14px 30px rgba(86,0,117,.22);}
+.comp-card:hover::after{opacity:1;}
+.comp-head{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem;}
+.comp-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,rgba(86,0,117,.45),rgba(196,0,255,.18));border:1px solid rgba(196,0,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.comp-name{font-weight:700;font-size:.92rem;color:var(--white);}
+.comp-ref{font-size:.7rem;color:var(--apex-glow);font-family:'Space Mono',monospace;opacity:.8;}
+.comp-desc{font-size:.82rem;color:var(--text);opacity:.65;line-height:1.6;margin-bottom:.9rem;}
+.comp-tags{display:flex;flex-wrap:wrap;gap:.35rem;}
+.ctag{background:rgba(196,0,255,.07);border:1px solid rgba(196,0,255,.14);color:rgba(255,255,255,.55);padding:.15rem .55rem;border-radius:50px;font-size:.63rem;font-family:'Space Mono',monospace;}
+
+/* FONCTIONNEMENT */
+.how-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:2rem;align-items:start;}
+.steps-list{display:flex;flex-direction:column;gap:.8rem;}
+.step{display:flex;gap:1rem;padding:1.1rem;background:var(--card);border:1px solid rgba(196,0,255,.08);border-radius:12px;transition:all .3s;}
+.step:hover{border-color:rgba(196,0,255,.25);background:rgba(19,0,32,.8);}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:rgba(196,0,255,.2);line-height:1;min-width:34px;transition:color .3s;}
+.step:hover .step-num{color:rgba(196,0,255,.5);}
+.step-content h4{font-weight:700;font-size:.88rem;color:var(--white);margin-bottom:.28rem;}
+.step-content p{font-size:.78rem;color:var(--text);opacity:.62;line-height:1.6;}
+
+/* CODE */
+.code-wrap{background:rgba(0,0,0,.5);border:1px solid rgba(196,0,255,.14);border-radius:14px;overflow:hidden;}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.2rem;background:rgba(86,0,117,.12);border-bottom:1px solid rgba(196,0,255,.1);}
+.code-dots{display:flex;gap:.4rem;}
+.code-dot{width:10px;height:10px;border-radius:50%;}
+.code-dot.r{background:#ff5f57;}.code-dot.y{background:#febc2e;}.code-dot.g{background:#28c840;}
+.code-lang{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(196,0,255,.6);letter-spacing:2px;text-transform:uppercase;}
+.code-body{padding:1.4rem 1.5rem;overflow-x:auto;}
+.code-body pre{font-family:'Space Mono',monospace;font-size:.76rem;color:#c8b8e8;line-height:1.8;}
+.cc{color:rgba(196,0,255,.45);}.kw{color:var(--apex-glow);}.fn{color:var(--gold);}.nm{color:#80ff80;}.st{color:#ff8c69;}
+
+/* PID */
+.pid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem;}
+.pid-card{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:12px;padding:1.4rem;text-align:center;position:relative;overflow:hidden;transition:all .3s;}
+.pid-card:hover{border-color:rgba(196,0,255,.3);transform:translateY(-3px);}
+.pid-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(196,0,255,.06),transparent 70%);}
+.pid-letter{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:rgba(196,0,255,.15);line-height:1;margin-bottom:.2rem;}
+.pid-name{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--white);margin-bottom:.5rem;}
+.pid-val{font-family:'Space Mono',monospace;font-size:1rem;color:var(--apex-glow);font-weight:700;margin-bottom:.5rem;}
+.pid-desc{font-size:.75rem;color:var(--text);opacity:.55;line-height:1.5;}
+
+/* CTA */
+.cta-section{text-align:center;padding:4rem 2.5rem 5rem;}
+.cta-section p{font-size:.88rem;color:var(--text);opacity:.55;margin-bottom:1.5rem;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:var(--apex-glow);color:var(--white);padding:.85rem 2rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;position:relative;overflow:hidden;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(196,0,255,.7);}
+.btn-back{background:transparent;color:rgba(255,255,255,.45);padding:.85rem 2rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-back:hover{border-color:rgba(255,255,255,.35);color:var(--white);}
+
+/* FOOTER */
+footer{background:rgba(0,0,0,.4);border-top:1px solid rgba(196,0,255,.08);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--white);}
+.footer-logo span{color:var(--apex-glow);}
+.footer-copy{font-size:.67rem;color:var(--text);opacity:.28;font-family:'Space Mono',monospace;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:.85rem 1.3rem;}
+  .nav-vote{display:none;}
+  section{padding:3rem 1.1rem;}
+  .page-hero{padding:6.5rem 1.1rem 2.5rem;}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .gallery-item.main{grid-row:span 1;min-height:200px;grid-column:span 2;}
+  .gallery-item.side{min-height:160px;}
+  .how-layout{grid-template-columns:1fr;}
+  .pid-grid{grid-template-columns:1fr;}
+  footer{padding:1.8rem 1.1rem;flex-direction:column;text-align:center;}
+  .cta-section{padding:3rem 1.1rem 4rem;}
+  .cta-btns{flex-direction:column;align-items:center;}
+}
+@media(max-width:480px){
+  .comp-grid{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:1fr;}
+  .gallery-item.main{grid-column:span 1;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">APEX <span>DYNAMIS</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Retour</a>
+    <a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="nav-vote">♟ Voter</a>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-grid"></div>
+  <div class="page-hero-inner">
+    <div class="page-badge">🔬 Fiche technique complète</div>
+    <h1 class="page-title">Notre <span>Robot</span></h1>
+    <p class="page-subtitle">Tout ce qu'il faut savoir sur la machine qu'Apex Dynamis a conçue pour dominer les Olympiades de Robotique UCAO 2026 — composants, algorithme, et fonctionnement détaillé.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- GALERIE PHOTOS -->
+<section>
+  <div class="section-label reveal">// En images</div>
+  <h2 class="reveal">Le robot en action</h2>
+
+  <div class="gallery-grid">
+    <!-- Photo principale — 09.jpg (robot face) -->
+    <div class="gallery-item main reveal" onclick="openLightbox('09.jpg','Vue principale du robot Apex')">
+      <img src="09 jpg" alt="Robot Apex Dynamis — Vue principale">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-tag">🤖 Vue principale · cliquer pour agrandir</div>
+    </div>
+    <!-- Photo côté — 08.jpg -->
+    <div class="gallery-item side reveal" onclick="openLightbox('08.jpg','Robot Apex — Vue latérale')">
+      <img src="08.jpg" alt="Robot Apex — Vue latérale">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-tag">⚙️ Vue latérale</div>
+    </div>
+
+
+
+    <!-- Photo détail — 07.jpg -->
+    <div class="gallery-item side reveal" onclick="openLightbox('07.jpg','Robot Apex — Détail technique')">
+      <img src="07.jpg" alt="Robot Apex — Détail technique">
+      <div class="gallery-overlay"></div>
+      <div class="gallery-tag">🔌 Détail technique</div>
+    </div>
+    <!-- Placeholder 4ème case -->
+    <div class="gallery-item side reveal" style="opacity:.35;cursor:default;min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;">
+      <div style="font-size:2rem;opacity:.4;">📷</div>
+      <div style="font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.3);">Photo à venir</div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<div class="divider"></div>
+
+
+
+<div class="divider"></div>
+
+<!-- COMPOSANTS -->
+<section>
+  <div class="section-label reveal">// Composition</div>
+  <h2 class="reveal">De quoi est constitué le robot ?</h2>
+
+  <div class="comp-grid">
+    <div class="comp-card reveal">
+      <div class="comp-head"><div class="comp-icon">🧠</div><div><div class="comp-name">Microcontrôleur</div><div class="comp-ref">Cerveau du robot</div></div></div>
+      <p class="comp-desc">Il traite les données de tous les capteurs et envoie les ordres aux moteurs. C'est lui qui exécute l'algorithme PID et prend toutes les décisions en temps réel.</p>
+      <div class="comp-tags"><span class="ctag">Programme embarqué</span><span class="ctag">Boucle rapide</span><span class="ctag">E/S digitales</span></div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-head"><div class="comp-icon">👁️</div><div><div class="comp-name">Capteurs infrarouges</div><div class="comp-ref">Suivi de ligne</div></div></div>
+      <p class="comp-desc">Disposés sous le châssis, ils émettent et reçoivent des signaux IR. La ligne noire absorbe la lumière — le capteur détecte ainsi où se trouve la ligne par rapport au robot.</p>
+      <div class="comp-tags"><span class="ctag">Émetteur / récepteur IR</span><span class="ctag">Réflexion noire/blanche</span><span class="ctag">Calibration</span></div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-head"><div class="comp-icon">📡</div><div><div class="comp-name">Capteur ultrason</div><div class="comp-ref">Détection d'obstacles</div></div></div>
+      <p class="comp-desc">Mesure la distance des obstacles par émission d'ultrasons. Dès qu'un objet est détecté à moins d'un seuil défini, le mode évitement s'active automatiquement.</p>
+      <div class="comp-tags"><span class="ctag">HC-SR04 ou équiv.</span><span class="ctag">Portée 2–400cm</span><span class="ctag">Précision ±3mm</span></div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-head"><div class="comp-icon">⚙️</div><div><div class="comp-name">Moteurs DC + Driver</div><div class="comp-ref">Propulsion</div></div></div>
+      <p class="comp-desc">Deux moteurs à courant continu assurent la propulsion différentielle. Le driver (pont en H) permet de contrôler vitesse et sens de chaque moteur indépendamment via PWM.</p>
+      <div class="comp-tags"><span class="ctag">Pont en H</span><span class="ctag">Contrôle PWM</span><span class="ctag">Direction différentielle</span></div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-head"><div class="comp-icon">🏎️</div><div><div class="comp-name">Châssis</div><div class="comp-ref">Structure mécanique</div></div></div>
+      <p class="comp-desc">Le châssis supporte tous les composants et influence directement les performances — stabilité, adhérence, répartition du poids et centre de gravité. Un châssis léger améliore la réactivité.</p>
+      <div class="comp-tags"><span class="ctag">Léger</span><span class="ctag">Gravité basse</span><span class="ctag">Stable</span></div>
+    </div>
+    <div class="comp-card reveal">
+      <div class="comp-head"><div class="comp-icon">⚡</div><div><div class="comp-name">Alimentation</div><div class="comp-ref">Source d'énergie</div></div></div>
+      <p class="comp-desc">Batteries rechargeables alimentant l'ensemble du système via un régulateur de tension. L'autonomie et la stabilité de la tension sont cruciales pour des performances constantes.</p>
+      <div class="comp-tags"><span class="ctag">Batterie rechargeable</span><span class="ctag">Tension régulée</span><span class="ctag">Interrupteur</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FONCTIONNEMENT -->
+<section>
+  <div class="section-label reveal">// Logique embarquée</div>
+  <h2 class="reveal">Comment ça fonctionne ?</h2>
+
+  <div class="how-layout">
+    <div class="steps-list">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <div class="step-content"><h4>Lecture des capteurs</h4><p>À chaque cycle, le microcontrôleur lit les capteurs IR (position de la ligne) et le capteur ultrason (distance des obstacles devant lui).</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <div class="step-content"><h4>Obstacle ou ligne ?</h4><p>Si la distance mesurée est inférieure au seuil, le mode évitement s'active. Sinon, le robot reste en mode suivi de ligne et calcule l'erreur de trajectoire.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <div class="step-content"><h4>Calcul de correction (PID)</h4><p>L'algorithme PID calcule l'écart entre la position actuelle et la trajectoire cible, puis génère une correction proportionnelle, intégrale et dérivée.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <div class="step-content"><h4>Commande des moteurs</h4><p>La correction est convertie en signaux PWM envoyés au driver. Le moteur gauche accélère ou freine par rapport au droit pour corriger la trajectoire en douceur.</p></div>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">05</div>
+        <div class="step-content"><h4>Retour à la ligne</h4><p>Après avoir contourné un obstacle, le robot recherche la ligne et reprend le suivi automatiquement, sans interruption visible.</p></div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="code-wrap">
+        <div class="code-header">
+          <div class="code-dots"><div class="code-dot r"></div><div class="code-dot y"></div><div class="code-dot g"></div></div>
+          <div class="code-lang">Arduino C++</div>
+        </div>
+        <div class="code-body">
+<pre><span class="cc">// Boucle principale — Apex Dynamis</span>
+
+<span class="kw">void</span> <span class="fn">loop</span>() {
+  <span class="cc">// Lecture capteurs</span>
+  <span class="kw">int</span> g = <span class="fn">lireIR</span>(GAUCHE);
+  <span class="kw">int</span> c = <span class="fn">lireIR</span>(CENTRE);
+  <span class="kw">int</span> d = <span class="fn">lireIR</span>(DROITE);
+  <span class="kw">float</span> dist = <span class="fn">lireUltrason</span>();
+
+  <span class="cc">// Obstacle détecté ?</span>
+  <span class="kw">if</span> (dist < SEUIL) {
+    <span class="fn">eviterObstacle</span>();
+    <span class="kw">return</span>;
+  }
+
+  <span class="cc">// Calcul erreur de ligne</span>
+  <span class="kw">float</span> err = <span class="fn">erreurLigne</span>(g, c, d);
+
+  <span class="cc">// Correction PID</span>
+  <span class="kw">float</span> cor = <span class="fn">PID</span>(err);
+
+  <span class="cc">// Appliquer aux moteurs</span>
+  <span class="fn">setMoteurs</span>(
+    VITESSE + cor,
+    VITESSE - cor
+  );
+}
+
+<span class="cc">// Algorithme PID</span>
+<span class="kw">float</span> ePrec = <span class="nm">0</span>, somme = <span class="nm">0</span>;
+<span class="kw">float</span> <span class="fn">PID</span>(<span class="kw">float</span> e) {
+  somme += e;
+  <span class="kw">float</span> delta = e - ePrec;
+  ePrec = e;
+  <span class="kw">return</span> Kp*e + Ki*somme + Kd*delta;
+}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PID -->
+<section>
+  <div class="section-label reveal">// L'algorithme clé</div>
+  <h2 class="reveal">Le PID — notre avantage technique</h2>
+  <p style="font-size:.9rem;color:var(--text);opacity:.68;max-width:620px;line-height:1.8;margin-bottom:1rem;" class="reveal">
+    Le <strong style="color:var(--white)">PID (Proportionnel-Intégral-Dérivé)</strong> est l'algorithme central du robot. Sans lui, le robot zigzaguerait. Avec lui, il suit la ligne avec précision et fluidité. Chaque terme joue un rôle spécifique :
+  </p>
+  <div class="pid-grid">
+    <div class="pid-card reveal">
+      <div class="pid-letter">P</div>
+      <div class="pid-name">Proportionnel</div>
+      <div class="pid-val">Kp × erreur</div>
+      <div class="pid-desc">Corrige proportionnellement à l'écart actuel. Plus le robot s'éloigne de la ligne, plus la correction est forte et immédiate.</div>
+    </div>
+    <div class="pid-card reveal">
+      <div class="pid-letter">I</div>
+      <div class="pid-name">Intégral</div>
+      <div class="pid-val">Ki × Σerreurs</div>
+      <div class="pid-desc">Accumule les erreurs dans le temps. Corrige les dérives progressives et empêche le robot de rester légèrement décalé en permanence.</div>
+    </div>
+    <div class="pid-card reveal">
+      <div class="pid-letter">D</div>
+      <div class="pid-name">Dérivé</div>
+      <div class="pid-val">Kd × Δerreur</div>
+      <div class="pid-desc">Prédit et amortit les corrections. Empêche le robot de sur-corriger et d'osciller — le mouvement devient plus fluide et stable.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <p class="reveal">La finale est le 18 avril 2026. Soutenez Apex Dynamis !</p>
+  <div class="cta-btns reveal">
+    <a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="btn-primary">♟ Voter pour Apex Dynamis</a>
+    <a href="index.html" class="btn-back">← Retour au site principal</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">APEX <span>DYNAMIS</span></div>
+  <div class="footer-copy">© 2026 Team Apex Dynamis — ORC UCAO-UUC Bénin</div>
+  <div class="footer-copy">robot.html — Fiche technique</div>
+</footer>
+
+<!-- LIGHTBOX JS -->
+<script>
+function openLightbox(src,alt){const lb=document.getElementById('lightbox');document.getElementById('lightboxImg').src=src;document.getElementById('lightboxImg').alt=alt;lb.classList.add('open');document.body.style.overflow='hidden';}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+
+/* REVEAL */
+const io=new IntersectionObserver((entries)=>{let d=0;entries.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),d);d+=55;}});},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* RIPPLE */
+document.querySelectorAll('.btn-primary,.btn-back,.nav-vote').forEach(btn=>{btn.addEventListener('click',function(e){const rip=document.createElement('span'),rect=btn.getBoundingClientRect(),sz=Math.max(rect.width,rect.height)*2;rip.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px;background:rgba(255,255,255,.22);transform:scale(0);animation:rA .6s linear;pointer-events:none;`;btn.appendChild(rip);setTimeout(()=>rip.remove(),600);});});
+const ss=document.createElement('style');ss.textContent='@keyframes rA{to{transform:scale(1);opacity:0;}}';document.head.appendChild(ss);
+</script>
+</body>
+</html>

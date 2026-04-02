@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team Apex Dynamis — ORC 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--apex:#560075;--apex-glow:#c400ff;--gold:#f5c518;--white:#fff;--dark:#0a0010;--card:#130020;--text:#e0c8f0;}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;opacity:.45;}
+
+/* ══ INTRO ══ */
+#intro{position:fixed;inset:0;z-index:8000;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+.intro-line{width:0;height:1px;background:linear-gradient(to right,transparent,var(--apex-glow),transparent);position:absolute;top:50%;left:50%;transform:translateX(-50%);animation:introLine .6s ease .3s forwards;}
+@keyframes introLine{to{width:80vw;}}
+.intro-logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,10vw,8rem);letter-spacing:6px;color:transparent;-webkit-text-stroke:1px rgba(196,0,255,.3);opacity:0;animation:introLogo .8s ease .8s forwards;text-align:center;}
+.intro-logo span{color:var(--apex-glow);-webkit-text-stroke:0;}
+@keyframes introLogo{to{opacity:1;-webkit-text-stroke:1px rgba(196,0,255,.55);}}
+.intro-sub{font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:5px;color:rgba(196,0,255,.6);text-transform:uppercase;margin-top:1rem;opacity:0;animation:introSub .6s ease 1.4s forwards;text-align:center;padding:0 1rem;}
+@keyframes introSub{to{opacity:1;}}
+.intro-bar{position:absolute;bottom:0;left:0;height:3px;width:0;background:linear-gradient(to right,var(--apex),var(--apex-glow));animation:introBar 1.8s ease .5s forwards;}
+@keyframes introBar{to{width:100%;}}
+.intro-corner{position:absolute;width:26px;height:26px;border-color:var(--apex-glow);border-style:solid;opacity:0;animation:introCorner .4s ease 1.8s forwards;}
+.intro-corner.tl{top:1.5rem;left:1.5rem;border-width:2px 0 0 2px;}.intro-corner.tr{top:1.5rem;right:1.5rem;border-width:2px 2px 0 0;}
+.intro-corner.bl{bottom:1.5rem;left:1.5rem;border-width:0 0 2px 2px;}.intro-corner.br{bottom:1.5rem;right:1.5rem;border-width:0 2px 2px 0;}
+@keyframes introCorner{to{opacity:1;}}
+#intro.out{animation:introFade .7s ease forwards;}
+@keyframes introFade{to{opacity:0;visibility:hidden;}}
+
+/* ══ NAV ══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:700;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(10,0,16,.92);backdrop-filter:blur(24px);border-bottom:1px solid rgba(196,0,255,.12);transition:padding .3s;}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--white);}
+.nav-logo span{color:var(--apex-glow);}
+.nav-links{display:flex;gap:1.6rem;list-style:none;align-items:center;}
+.nav-links a{color:var(--text);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;transition:color .3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--apex-glow);transition:width .3s;}
+.nav-links a:hover{color:var(--apex-glow);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{background:var(--apex)!important;color:var(--white)!important;padding:.42rem 1rem;border-radius:4px;border:1px solid var(--apex-glow)!important;transition:all .3s!important;white-space:nowrap;}
+.nav-cta:hover{background:var(--apex-glow)!important;box-shadow:0 0 20px rgba(196,0,255,.5);}
+.nav-cta::after{display:none!important;}
+
+/* ══ HAMBURGER ══ */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:8px;background:rgba(196,0,255,.08);border:1px solid rgba(196,0,255,.2);border-radius:8px;width:40px;height:40px;z-index:800;transition:all .3s;}
+.hamburger:hover{background:rgba(196,0,255,.18);border-color:rgba(196,0,255,.4);}
+.hamburger span{display:block;width:18px;height:2px;background:var(--text);transition:all .35s cubic-bezier(.4,0,.2,1);border-radius:2px;margin:0 auto;}
+.hamburger.open{background:rgba(196,0,255,.15);border-color:var(--apex-glow);}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;transform:translateX(-8px);}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+/* ══ DRAWER ══ */
+.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:690;backdrop-filter:blur(6px);opacity:0;transition:opacity .35s;}
+.drawer-overlay.open{display:block;opacity:1;}
+.drawer{
+  position:fixed;top:0;left:-340px;bottom:0;width:300px;max-width:85vw;
+  background:linear-gradient(170deg,#0d0018 0%,#1a0030 60%,#0d001a 100%);
+  border-right:1px solid rgba(196,0,255,.18);
+  z-index:695;transition:left .38s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  box-shadow:12px 0 50px rgba(0,0,0,.6);
+}
+.drawer.open{left:0;}
+
+/* Drawer header */
+.drawer-header{
+  padding:1.4rem 1.4rem 1rem;
+  border-bottom:1px solid rgba(196,0,255,.1);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(86,0,117,.12);
+}
+.drawer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--white);display:flex;align-items:center;gap:.5rem;}
+.drawer-logo span{color:var(--apex-glow);}
+.drawer-logo-dot{width:8px;height:8px;background:var(--apex-glow);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.6);}}
+.drawer-close{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);font-size:1rem;cursor:pointer;padding:0;border-radius:6px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:all .3s;flex-shrink:0;}
+.drawer-close:hover{background:rgba(196,0,255,.2);border-color:var(--apex-glow);color:var(--apex-glow);}
+
+/* Drawer nav */
+.drawer-nav{flex:1;padding:1rem 0;overflow-y:auto;}
+.drawer-section-title{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(196,0,255,.4);letter-spacing:3px;text-transform:uppercase;padding:.5rem 1.4rem .3rem;margin-top:.3rem;}
+.drawer-nav a{
+  display:flex;align-items:center;gap:.85rem;
+  padding:.78rem 1.4rem;
+  color:rgba(255,255,255,.65);text-decoration:none;
+  font-size:.88rem;font-weight:500;
+  border-left:2px solid transparent;
+  transition:all .22s;
+}
+.drawer-nav a:hover{
+  color:var(--white);background:rgba(196,0,255,.07);
+  border-left-color:var(--apex-glow);padding-left:1.8rem;
+}
+.drawer-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(196,0,255,.08);border:1px solid rgba(196,0,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;flex-shrink:0;transition:all .22s;
+}
+.drawer-nav a:hover .drawer-icon{background:rgba(196,0,255,.18);border-color:rgba(196,0,255,.35);}
+.drawer-divider{height:1px;background:rgba(196,0,255,.08);margin:.6rem 1.4rem;}
+
+/* Drawer CTA */
+.drawer-cta-wrap{padding:1rem 1.4rem 1.4rem;}
+.drawer-vote{
+  display:block;text-align:center;text-decoration:none;
+  background:linear-gradient(135deg,var(--apex),var(--apex-glow));
+  color:var(--white);padding:.9rem 1.5rem;border-radius:10px;
+  font-weight:700;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;
+  box-shadow:0 4px 20px rgba(196,0,255,.35);transition:all .3s;
+}
+.drawer-vote:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(196,0,255,.55);}
+.drawer-footer{padding:.9rem 1.4rem;border-top:1px solid rgba(196,0,255,.07);font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.2);text-align:center;}
+
+/* ══ HERO ══ */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:8rem 1.5rem 4rem;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(86,0,117,.5) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(196,0,255,.15) 0%,transparent 60%),radial-gradient(ellipse 30% 30% at 20% 70%,rgba(245,197,24,.08) 0%,transparent 60%);}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(196,0,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(196,0,255,.05) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(86,0,117,.3);border:1px solid rgba(196,0,255,.4);border-radius:50px;padding:.4rem 1.2rem;font-size:.74rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--apex-glow);margin-bottom:2rem;animation:fadeDown .8s ease both;}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--apex-glow);border-radius:50%;animation:pulse 2s infinite;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,12vw,9rem);line-height:.9;letter-spacing:4px;color:var(--white);animation:fadeUp 1s ease .2s both;}
+h1 .glow{color:var(--apex-glow);text-shadow:0 0 40px rgba(196,0,255,.6),0 0 80px rgba(196,0,255,.3);}
+.hero-slogan{font-size:clamp(.82rem,2vw,1.08rem);color:var(--text);font-style:italic;font-weight:300;max-width:560px;margin:1.5rem auto 0;opacity:.85;animation:fadeUp 1s ease .4s both;}
+.hero-slogan em{color:var(--gold);font-style:normal;font-weight:600;}
+.hero-slogan::after{content:'|';color:var(--apex-glow);animation:blink 1s step-end infinite;margin-left:2px;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-btns{display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 1s ease .6s both;}
+.btn-primary{background:var(--apex-glow);color:var(--white);padding:.85rem 2rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;position:relative;overflow:hidden;animation:btnGlow 2.5s ease-in-out infinite;transition:transform .3s,box-shadow .3s;}
+.btn-primary:hover{transform:translateY(-2px);animation:none;box-shadow:0 0 50px rgba(196,0,255,.8);}
+@keyframes btnGlow{0%,100%{box-shadow:0 0 30px rgba(196,0,255,.4);}50%{box-shadow:0 0 60px rgba(196,0,255,.8),0 0 100px rgba(196,0,255,.3);}}
+.btn-secondary{background:transparent;color:var(--white);padding:.85rem 2rem;border-radius:6px;text-decoration:none;font-weight:600;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(255,255,255,.3);transition:all .3s;cursor:pointer;position:relative;overflow:hidden;}
+.btn-secondary:hover{border-color:var(--apex-glow);color:var(--apex-glow);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--apex-glow);padding:.8rem 2rem;border-radius:6px;text-decoration:none;font-weight:700;font-size:.88rem;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--apex-glow);transition:all .3s;cursor:pointer;position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-outline:hover{background:rgba(196,0,255,.1);transform:translateY(-2px);box-shadow:0 0 20px rgba(196,0,255,.3);}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3.5rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 1s ease .8s both;}
+.stat{text-align:center;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--apex-glow);line-height:1;}
+.stat-label{font-size:.68rem;text-transform:uppercase;letter-spacing:2px;color:var(--text);opacity:.6;margin-top:.3rem;}
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:.4;animation:bounce 2s infinite;}
+.hero-scroll span{font-size:.62rem;letter-spacing:2px;text-transform:uppercase;}
+.hero-scroll::after{content:'';width:1px;height:32px;background:linear-gradient(to bottom,var(--apex-glow),transparent);}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(7px);}}
+#hero::after{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,rgba(196,0,255,.4),transparent);animation:scanLine 4s linear infinite;pointer-events:none;}
+@keyframes scanLine{0%{top:0%;opacity:0;}5%{opacity:1;}95%{opacity:1;}100%{top:100%;opacity:0;}}
+
+/* ══ SECTIONS ══ */
+section{padding:5rem 2.5rem;max-width:1200px;margin:0 auto;}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--apex-glow);letter-spacing:4px;text-transform:uppercase;margin-bottom:.8rem;opacity:.8;}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.6rem);letter-spacing:3px;color:var(--white);line-height:1;margin-bottom:.9rem;}
+.section-desc{font-size:.93rem;color:var(--text);opacity:.7;max-width:500px;line-height:1.7;margin-bottom:2.5rem;}
+.divider{width:100%;height:1px;background:linear-gradient(to right,transparent,rgba(196,0,255,.22),transparent);}
+
+/* ══ COMPETITION SECTION ══ */
+#competition{background:linear-gradient(135deg,rgba(19,0,32,.7),rgba(86,0,117,.06));border-top:1px solid rgba(196,0,255,.08);border-bottom:1px solid rgba(196,0,255,.08);}
+.compet-intro{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-bottom:3rem;}
+.compet-text p{font-size:.92rem;color:var(--text);opacity:.75;line-height:1.8;margin-bottom:.9rem;}
+.compet-text p strong{color:var(--white);opacity:1;}
+.compet-highlight{background:var(--card);border:1px solid rgba(196,0,255,.18);border-radius:12px;padding:1.5rem;border-left:3px solid var(--apex-glow);}
+.compet-highlight-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--apex-glow);margin-bottom:.6rem;}
+.compet-highlight p{font-size:.85rem;color:var(--text);opacity:.7;line-height:1.6;}
+
+/* Vidéos compétition */
+.compet-videos{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin:2.5rem 0;}
+.vid-card{border-radius:12px;overflow:hidden;border:1px solid rgba(196,0,255,.15);background:#000;position:relative;transition:all .3s;}
+.vid-card:hover{border-color:rgba(196,0,255,.4);box-shadow:0 8px 30px rgba(86,0,117,.35);}
+.vid-card video{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;}
+.vid-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(10,0,16,.9),transparent);padding:.6rem .8rem;font-size:.72rem;font-family:'Space Mono',monospace;color:rgba(255,255,255,.7);}
+
+/* Challenge cards */
+.challenge-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.5rem;}
+.challenge-card{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:12px;padding:1.3rem;display:flex;gap:1rem;align-items:flex-start;transition:all .3s;}
+.challenge-card:hover{border-color:rgba(196,0,255,.3);transform:translateY(-2px);}
+.challenge-icon{font-size:1.6rem;flex-shrink:0;}
+.challenge-title{font-weight:700;font-size:.88rem;color:var(--white);margin-bottom:.3rem;}
+.challenge-desc{font-size:.78rem;color:var(--text);opacity:.6;line-height:1.5;}
+
+/* Dates */
+.dates-strip{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;}
+.date-chip{background:rgba(86,0,117,.2);border:1px solid rgba(196,0,255,.2);border-radius:8px;padding:.6rem 1.1rem;display:flex;align-items:center;gap:.6rem;}
+.date-icon{font-size:.9rem;}
+.date-text{font-size:.78rem;color:var(--text);opacity:.8;}
+.date-text strong{color:var(--gold);}
+
+/* ══ DASHBOARD ══ */
+#dashboard{padding:2.5rem 2.5rem 0;max-width:1200px;margin:0 auto;}
+.dash-box{background:var(--card);border:1px solid rgba(196,0,255,.18);border-radius:16px;padding:2rem;background:linear-gradient(135deg,rgba(19,0,32,.95),rgba(86,0,117,.12));}
+.dash-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.dash-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:var(--white);}
+.live-pill{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,50,50,.12);border:1px solid rgba(255,50,50,.35);color:#ff4444;padding:.28rem .75rem;border-radius:50px;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.live-pill::before{content:'';width:6px;height:6px;background:#ff4444;border-radius:50%;animation:pulse 1s infinite;}
+.teams-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.9rem;}
+.trow{background:rgba(255,255,255,.03);border:1px solid rgba(196,0,255,.08);border-radius:10px;padding:.9rem 1.1rem;display:flex;align-items:center;gap:.9rem;transition:all .3s;}
+.trow:hover{border-color:rgba(196,0,255,.28);background:rgba(196,0,255,.04);}
+.trow.apex{border-color:rgba(196,0,255,.35);background:linear-gradient(135deg,rgba(86,0,117,.28),rgba(196,0,255,.07));}
+.trank{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:rgba(255,255,255,.12);min-width:28px;text-align:center;}
+.trank.g{color:var(--gold);}.trank.s{color:rgba(192,192,192,.75);}.trank.b{color:rgba(205,127,50,.75);}
+.tinfo{flex:1;min-width:0;}
+.tname{font-weight:700;font-size:.88rem;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tname.apex-n{color:var(--apex-glow);}
+.vbar-wrap{height:3px;background:rgba(255,255,255,.05);border-radius:4px;margin-top:.4rem;overflow:hidden;}
+.vbar{height:100%;background:linear-gradient(to right,var(--apex),var(--apex-glow));border-radius:4px;transition:width 1.2s ease;width:0;}
+.vbar.other{background:linear-gradient(to right,rgba(255,255,255,.1),rgba(255,255,255,.25));}
+.tvotes{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--apex-glow);font-weight:700;white-space:nowrap;}
+.tvotes.dim{color:rgba(255,255,255,.3);}
+.dash-note{font-size:.65rem;color:rgba(255,255,255,.2);font-family:'Space Mono',monospace;text-align:right;margin-top:1rem;}
+
+/* ══ TEAM ══ */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1.1rem;margin-top:2.5rem;}
+.member-card{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:12px;padding:1.7rem 1.1rem;text-align:center;transition:all .3s;position:relative;overflow:hidden;perspective:600px;transform-style:preserve-3d;}
+.member-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--apex-glow),transparent);opacity:0;transition:opacity .3s;}
+.member-card:hover{border-color:rgba(196,0,255,.38);transform:translateY(-4px);box-shadow:0 18px 38px rgba(86,0,117,.28);}
+.member-card:hover::before{opacity:1;}
+.member-card.chef{border-color:rgba(245,197,24,.32);background:linear-gradient(135deg,var(--card),rgba(86,0,60,.35));}
+.member-card.chef::before{background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:1;}
+.member-photo{width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;overflow:hidden;border:2px solid rgba(196,0,255,.35);box-shadow:0 0 16px rgba(196,0,255,.25);}
+.member-photo img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.member-card.chef .member-photo{border-color:var(--gold);box-shadow:0 0 20px rgba(245,197,24,.3);}
+.chef-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.32);color:var(--gold);padding:.18rem .55rem;border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.45rem;}
+.member-name{font-weight:700;font-size:.86rem;color:var(--white);line-height:1.3;margin-bottom:.32rem;}
+.member-role{font-size:.7rem;color:var(--apex-glow);font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-bottom:.22rem;}
+.member-school{font-size:.65rem;color:var(--text);opacity:.4;font-family:'Space Mono',monospace;}
+
+/* ══ ROBOT ══ */
+.video-placeholder{background:var(--card);border:2px dashed rgba(196,0,255,.16);border-radius:16px;padding:4rem 2rem;text-align:center;position:relative;overflow:hidden;margin-bottom:2rem;}
+.video-placeholder::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(86,0,117,.1) 0%,transparent 70%);}
+.video-icon{font-size:3rem;margin-bottom:.7rem;opacity:.4;}
+.video-coming{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--apex-glow);opacity:.55;}
+.video-coming-sub{font-size:.78rem;opacity:.3;margin-top:.3rem;}
+.robot-specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:.85rem;margin-top:1.7rem;}
+.spec-card{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:10px;padding:1rem;display:flex;align-items:center;gap:.85rem;}
+.spec-icon{font-size:1.3rem;}
+.spec-label{font-size:.63rem;text-transform:uppercase;letter-spacing:1px;color:var(--text);opacity:.42;margin-bottom:.18rem;}
+.spec-value{font-weight:600;font-size:.86rem;color:var(--white);}
+.robot-cta-wrap{display:flex;justify-content:center;margin-top:2.5rem;}
+
+/* ══ ROADMAP ══ */
+.roadmap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:2.5rem;}
+.phase-card{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:12px;padding:1.7rem;position:relative;overflow:hidden;transition:all .3s;}
+.phase-card:hover{border-color:rgba(196,0,255,.28);transform:translateY(-2px);box-shadow:0 0 35px rgba(86,0,117,.3);}
+.phase-num{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;color:rgba(196,0,255,.04);position:absolute;top:-.3rem;right:.8rem;line-height:1;pointer-events:none;}
+.phase-tag{display:inline-flex;align-items:center;gap:.32rem;padding:.22rem .7rem;border-radius:50px;font-size:.64rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:.85rem;}
+.phase-tag.done{background:rgba(0,200,100,.1);color:#00c864;border:1px solid rgba(0,200,100,.25);}
+.phase-tag.ongoing{background:rgba(245,197,24,.1);color:var(--gold);border:1px solid rgba(245,197,24,.25);}
+.phase-tag.soon{background:rgba(196,0,255,.07);color:var(--apex-glow);border:1px solid rgba(196,0,255,.16);}
+.phase-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:2px;color:var(--white);margin-bottom:.65rem;}
+.phase-items{list-style:none;}
+.phase-items li{font-size:.8rem;color:var(--text);opacity:.68;padding:.26rem 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:.42rem;}
+.phase-items li::before{content:'→';color:var(--apex-glow);font-size:.68rem;opacity:.65;}
+.progress-bar{height:3px;background:rgba(255,255,255,.04);border-radius:10px;margin-top:1.1rem;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(to right,var(--apex),var(--apex-glow));border-radius:10px;transition:width 1.5s ease;width:0;}
+
+/* ══ JOURNAL ══ */
+.journal-entry{background:var(--card);border:1px solid rgba(196,0,255,.1);border-radius:12px;overflow:hidden;margin-bottom:.85rem;transition:border-color .3s;}
+.journal-entry:hover{border-color:rgba(196,0,255,.28);}
+.journal-header{display:flex;align-items:center;gap:1.1rem;padding:1.2rem 1.6rem;cursor:pointer;flex-wrap:wrap;}
+.journal-week{font-family:'Space Mono',monospace;font-size:.66rem;color:var(--apex-glow);white-space:nowrap;}
+.journal-title{font-weight:600;font-size:.88rem;color:var(--white);flex:1;min-width:120px;}
+.journal-status{padding:.2rem .6rem;border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.status-done{background:rgba(0,200,100,.1);color:#00c864;border:1px solid rgba(0,200,100,.25);}
+.status-ongoing{background:rgba(245,197,24,.1);color:var(--gold);border:1px solid rgba(245,197,24,.25);}
+.journal-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1),padding .3s;padding:0 1.6rem;display:block!important;}
+.journal-body.open{max-height:500px;padding:0 1.6rem 1.4rem;}
+.journal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-top:.9rem;}
+.journal-block{background:rgba(255,255,255,.03);border-radius:8px;padding:.85rem;}
+.journal-block-title{font-size:.64rem;text-transform:uppercase;letter-spacing:1px;color:var(--apex-glow);margin-bottom:.38rem;font-family:'Space Mono',monospace;}
+.journal-block p{font-size:.78rem;color:var(--text);opacity:.68;line-height:1.6;}
+.chevron{font-size:.72rem;color:var(--apex-glow);transition:transform .3s;opacity:.52;}
+.journal-entry.open .chevron{transform:rotate(180deg);}
+
+/* ══ VOTE ══ */
+#vote{padding:3rem 2.5rem;}
+.vote-box{background:linear-gradient(135deg,rgba(86,0,117,.38),rgba(196,0,255,.1));border:1px solid rgba(196,0,255,.25);border-radius:20px;padding:3.5rem 2rem;text-align:center;position:relative;overflow:hidden;max-width:1200px;margin:0 auto;}
+.vote-box::before{content:'';position:absolute;inset:-50%;background:radial-gradient(ellipse at center,rgba(196,0,255,.06) 0%,transparent 60%);}
+.vote-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,3.5rem);letter-spacing:3px;color:var(--white);margin-bottom:.9rem;}
+.vote-sub{font-size:.92rem;color:var(--text);opacity:.68;max-width:460px;margin:0 auto 1.8rem;line-height:1.6;}
+.vote-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* ══ FOOTER ══ */
+footer{background:rgba(0,0,0,.38);border-top:1px solid rgba(196,0,255,.08);padding:2.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:3px;color:var(--white);}
+.footer-logo span{color:var(--apex-glow);}
+.footer-copy{font-size:.68rem;color:var(--text);opacity:.32;font-family:'Space Mono',monospace;}
+
+/* ══ ANIM ══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:900px){
+  .compet-intro{grid-template-columns:1fr;}
+  .compet-videos{grid-template-columns:1fr 1fr;}
+  .challenge-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  nav{padding:.85rem 1.3rem;}
+  .nav-links{display:none!important;}
+  .hamburger{display:flex;}
+  section{padding:3rem 1.1rem;}
+  #competition{padding:3rem 1.1rem;}
+  #dashboard{padding:2rem 1.1rem 0;}
+  #vote{padding:2rem 1.1rem;}
+  footer{padding:1.8rem 1.1rem;flex-direction:column;text-align:center;}
+  .roadmap-grid{grid-template-columns:1fr;}
+  .journal-grid{grid-template-columns:1fr;}
+  .team-grid{grid-template-columns:repeat(2,1fr);}
+  .robot-specs{grid-template-columns:repeat(2,1fr);}
+  .teams-grid{grid-template-columns:1fr;}
+  .vote-box{padding:2.2rem 1.1rem;}
+  .dash-box{padding:1.1rem;}
+  .hero-btns{flex-direction:column;align-items:center;}
+  .btn-primary,.btn-secondary{width:100%;max-width:270px;text-align:center;display:block;}
+  .compet-videos{grid-template-columns:1fr;}
+}
+@media(max-width:400px){
+  .team-grid{grid-template-columns:1fr;}
+  .robot-specs{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="intro-line"></div>
+  <div class="intro-logo">APEX <span>DYNAMIS</span></div>
+  <div class="intro-sub">Olympiades de Robotique · UCAO-UUC · 2026</div>
+  <div class="intro-bar"></div>
+  <div class="intro-corner tl"></div><div class="intro-corner tr"></div>
+  <div class="intro-corner bl"></div><div class="intro-corner br"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">APEX <span>DYNAMIS</span></div>
+  <ul class="nav-links">
+    <li><a href="#competition">Compétition</a></li>
+    <li><a href="#equipe">Équipe</a></li>
+    <li><a href="#robot">Robot</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#journal">Journal</a></li>
+    <li><a href="#dashboard">Votes</a></li>
+    <li><a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="nav-cta">♟ Voter</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="openDrawer()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-logo">
+      <div class="drawer-logo-dot"></div>
+      APEX <span>DYNAMIS</span>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+
+  <nav class="drawer-nav">
+    <div class="drawer-section-title">Navigation</div>
+    <a href="#competition" onclick="closeDrawer()">
+      <div class="drawer-icon">🏆</div> La compétition
+    </a>
+    <a href="#equipe" onclick="closeDrawer()">
+      <div class="drawer-icon">👥</div> L'équipe
+    </a>
+    <div class="drawer-divider"></div>
+    <div class="drawer-section-title">Notre robot</div>
+    <a href="#robot" onclick="closeDrawer()">
+      <div class="drawer-icon">🤖</div> Présentation
+    </a>
+    <a href="robot.html" onclick="closeDrawer()">
+      <div class="drawer-icon">🔬</div> Détails techniques
+    </a>
+    <div class="drawer-divider"></div>
+    <div class="drawer-section-title">Progression</div>
+    <a href="#roadmap" onclick="closeDrawer()">
+      <div class="drawer-icon">📅</div> Roadmap
+    </a>
+    <a href="#journal" onclick="closeDrawer()">
+      <div class="drawer-icon">📝</div> Journal de bord
+    </a>
+    <a href="#dashboard" onclick="closeDrawer()">
+      <div class="drawer-icon">📊</div> Classement votes
+    </a>
+  </nav>
+
+  <div class="drawer-cta-wrap">
+    <a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="drawer-vote" onclick="closeDrawer()">
+      ♟ Voter pour Apex Dynamis
+    </a>
+  </div>
+  <div class="drawer-footer">© 2026 Team Apex Dynamis · ORC UCAO-UUC Bénin</div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">ORC 2026 — UCAO-UUC Bénin · Édition inaugurale</div>
+  <h1>TEAM<br><span class="glow">APEX</span><br>DYNAMIS</h1>
+  <p class="hero-slogan">« La vitesse n'est rien sans la <em>maîtrise</em> ;<br>la puissance n'est rien sans l'<em>élégance</em>. »</p>
+  <div class="hero-btns">
+    <a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="btn-primary">♟ Voter pour nous</a>
+    <a href="#competition" class="btn-secondary">Découvrir la compétition</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Membres</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Robot</div></div>
+    <div class="stat"><div class="stat-num">18</div><div class="stat-label">Avr. Finale</div></div>
+    <div class="stat"><div class="stat-num">#1</div><div class="stat-label">Objectif</div></div>
+  </div>
+  <div class="hero-scroll"><span>Scroll</span></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPÉTITION -->
+<section id="competition">
+  <div class="section-label reveal">// C'est quoi ?</div>
+  <h2 class="reveal">Les Olympiades de Robotique UCAO</h2>
+
+  <div class="compet-intro">
+    <div class="compet-text reveal">
+      <p>Les <strong>Olympiades de Robotique UCAO</strong> sont la première compétition de robotique universitaire au Bénin, organisée à l'<strong>UCAO-UUC</strong> à Cotonou. Cette édition inaugule le jubilé des <strong>25 ans</strong> de l'université.</p>
+      <p>Le principe est simple mais exigeant : chaque équipe d'étudiants doit <strong>concevoir, programmer et assembler</strong> un robot autonome capable de relever deux défis techniques sur un même parcours.</p>
+      <p>Les équipes sont évaluées sur les <strong>performances du robot</strong> en compétition, mais aussi sur la <strong>qualité de leur documentation</strong>, leur esprit d'équipe, et leur capacité à présenter leur travail devant un jury.</p>
+      <div class="compet-highlight">
+        <div class="compet-highlight-title">📅 Grande Finale</div>
+        <p>La finale de la compétition est prévue le <strong style="color:var(--gold)">18 avril 2026</strong>. Les meilleures équipes s'affrontent devant jury et public. Un vote populaire fait également partie du score.</p>
+      </div>
+    </div>
+    <div>
+      <div class="challenge-grid reveal">
+        <div class="challenge-card">
+          <div class="challenge-icon">🏁</div>
+          <div>
+            <div class="challenge-title">Défi 1 — Suivi de ligne</div>
+            <div class="challenge-desc">Le robot doit suivre une ligne noire tracée au sol avec précision, même dans les virages. La vitesse et la stabilité sont primordiales.</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-icon">🚧</div>
+          <div>
+            <div class="challenge-title">Défi 2 — Évitement d'obstacles</div>
+            <div class="challenge-desc">Des obstacles sont placés sur le parcours. Le robot doit les détecter et les contourner automatiquement, sans perdre la ligne.</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-icon">⚡</div>
+          <div>
+            <div class="challenge-title">Critère — Réactivité</div>
+            <div class="challenge-desc">Le temps de réaction du robot est évalué. Un bon algorithme réagit en quelques millisecondes pour corriger la trajectoire.</div>
+          </div>
+        </div>
+        <div class="challenge-card">
+          <div class="challenge-icon">🗳️</div>
+          <div>
+            <div class="challenge-title">Vote populaire</div>
+            <div class="challenge-desc">Le public peut voter pour soutenir son équipe favorite. Ce soutien est intégré dans l'évaluation globale. Votre vote compte !</div>
+          </div>
+        </div>
+      </div>
+      <div class="dates-strip reveal">
+        <div class="date-chip"><span class="date-icon">🎓</span><span class="date-text">Organisé par <strong>UCAO-UUC</strong></span></div>
+        <div class="date-chip"><span class="date-icon">🏅</span><span class="date-text">Édition <strong>inaugurale 2026</strong></span></div>
+        <div class="date-chip"><span class="date-icon">📍</span><span class="date-text"><strong>Cotonou</strong>, Bénin</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDÉOS -->
+  <div class="section-label reveal">// Découvrez l'ambiance</div>
+  <div class="compet-videos">
+    <div class="vid-card reveal">
+      <video controls muted playsinline preload="metadata">
+        <source src="01.mp4" type="video/mp4">
+      </video>
+      <div class="vid-label">🤖 Démonstration robot</div>
+    </div>
+    <div class="vid-card reveal">
+      <video controls muted playsinline preload="metadata">
+        <source src="02.mp4" type="video/mp4">
+      </video>
+      <div class="vid-label">🏁 Test sur piste</div>
+    </div>
+    <div class="vid-card reveal">
+      <video controls muted playsinline preload="metadata">
+        <source src="03.mp4" type="video/mp4">
+      </video>
+      <div class="vid-label">⚡ Évitement d'obstacles</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="divider" style="margin-top:3rem;"></div>
+
+<!-- ÉQUIPE -->
+<section id="equipe">
+  <div class="section-label reveal">// L'équipe</div>
+  <h2 class="reveal">Les 6 qui font la différence</h2>
+  <p class="section-desc reveal">6 esprits, une seule mission : construire le robot qui dominera les Olympiades de Robotique UCAO 2026.</p>
+  <div class="team-grid">
+    <div class="member-card chef reveal">
+      <div class="member-photo"><img src="01.jpg" alt="Sèdjro Géofroy HOUNGAVOU"></div>
+      <div class="chef-badge">♟ Chef d'équipe</div>
+      <div class="member-name">Sèdjro Géofroy HOUNGAVOU</div>
+      <div class="member-role">Direction & stratégie</div>
+      <div class="member-school">UCAO-UUC — IIM 1</div>
+    </div>
+    <div class="member-card reveal">
+      <div class="member-photo"><img src="02.jpg" alt="Abdoul Aziz SANI AMADOU"></div>
+      <div class="member-name">Abdoul Aziz SANI AMADOU</div>
+      <div class="member-role">Assistant programmeur</div>
+      <div class="member-school">UCAO-UUC — IIM1</div>
+    </div>
+    <div class="member-card reveal">
+      <div class="member-photo"><img src="03.jpg" alt="Auracio Bertrand MARTIN-CORREA"></div>
+      <div class="member-name">Auracio Bertrand MARTIN-CORREA</div>
+      <div class="member-role">Sous-chef technique & modélisateur</div>
+      <div class="member-school">UCAO-UUC — IIM1</div>
+    </div>
+    <div class="member-card reveal">
+      <div class="member-photo"><img src="04.jpg" alt="Farouz ATCHA"></div>
+      <div class="member-name">Farouz ATCHA</div>
+      <div class="member-role">Programmation</div>
+      <div class="member-school">UCAO-UUC — IIM1</div>
+    </div>
+    <div class="member-card reveal">
+      <div class="member-photo"><img src="05.jpg" alt="Ruth ADIMOU"></div>
+      <div class="member-name">Ruth ADIMOU</div>
+      <div class="member-role">Design</div>
+      <div class="member-school">UCAO-UUC — IIM1</div>
+    </div>
+    <div class="member-card reveal">
+      <div class="member-photo"><img src="06.jpg" alt="Stério MELIHO"></div>
+      <div class="member-name">Stério MELIHO</div>
+      <div class="member-role">Élaborateur & chercheur technique</div>
+      <div class="member-school">UCAO-UUC — IIM1</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ROBOT -->
+<section id="robot">
+  <div class="section-label reveal">// Notre robot</div>
+  <h2 class="reveal">La machine Apex</h2>
+  <p class="section-desc reveal">Un robot entièrement conçu par l'équipe pour relever les deux défis de la compétition : suivre une ligne noire avec précision et contourner des obstacles en temps réel.</p>
+
+  <div class="video-placeholder reveal">
+    <div class="video-icon">🎬</div>
+    <div class="video-coming">Vidéo du robot à venir</div>
+    <div class="video-coming-sub">Ajoute demo.mp4 dans le dossier et remplace ce bloc par la balise &lt;video&gt;</div>
+  </div>
+
+  <div class="robot-cta-wrap reveal">
+    <a href="robot.html" class="btn-outline">🔬 Voir les détails techniques complets →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-label reveal">// Plan de bataille</div>
+  <h2 class="reveal">La roadmap</h2>
+  <p class="section-desc reveal">4 phases. Chaque étape nous rapproche de la victoire du 18 avril.</p>
+  <div class="roadmap-grid">
+    <div class="phase-card reveal">
+      <div class="phase-num">01</div><div class="phase-tag done">✓ Terminé</div>
+      <div class="phase-title">Conception & Design</div>
+      <ul class="phase-items"><li>Analyse du cahier des charges</li><li>Choix de l'architecture technique</li><li>Sélection des composants</li><li>Schémas électroniques</li></ul>
+      <div class="progress-bar"><div class="progress-fill" data-w="100%"></div></div>
+    </div>
+    <div class="phase-card reveal">
+      <div class="phase-num">02</div><div class="phase-tag ongoing">⚡ En cours</div>
+      <div class="phase-title">Prototypage</div>
+      <ul class="phase-items"><li>Assemblage du châssis</li><li>Câblage et premiers tests</li><li>Programmation algorithmes</li><li>Tests des capteurs IR</li></ul>
+      <div class="progress-bar"><div class="progress-fill" data-w="55%"></div></div>
+    </div>
+    <div class="phase-card reveal">
+      <div class="phase-num">03</div><div class="phase-tag soon">→ À venir</div>
+      <div class="phase-title">Tests & Optimisation</div>
+      <ul class="phase-items"><li>Tests intensifs sur piste</li><li>Calibration du PID</li><li>Optimisation évitement obstacles</li><li>Réduction du temps de réaction</li></ul>
+      <div class="progress-bar"><div class="progress-fill" data-w="0%"></div></div>
+    </div>
+    <div class="phase-card reveal">
+      <div class="phase-num">04</div><div class="phase-tag soon">🏆 18 Avr.</div>
+      <div class="phase-title">Compétition</div>
+      <ul class="phase-items"><li>Répétitions finales</li><li>Présentation au jury</li><li>Démonstration sur piste</li><li>Victoire</li></ul>
+      <div class="progress-bar"><div class="progress-fill" data-w="0%"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- JOURNAL -->
+<section id="journal">
+  <div class="section-label reveal">// Journal de bord</div>
+  <h2 class="reveal">Notre progression</h2>
+  <p class="section-desc reveal">Semaine par semaine, on documente notre avancée. La transparence, c'est notre force.</p>
+  <div class="journal-entry reveal open">
+    <div class="journal-header" onclick="toggleJournal(this)">
+      <span class="journal-week">S01 — 25 Mar 2026</span>
+      <span class="journal-title">Lancement & constitution de l'équipe</span>
+      <span class="journal-status status-done">Terminé</span><span class="chevron">▼</span>
+    </div>
+    <div class="journal-body open">
+      <div class="journal-grid">
+        <div class="journal-block"><div class="journal-block-title">✅ Ce qu'on a fait</div><p>Formation de l'équipe, définition des rôles, lecture du cahier des charges et mise en place des outils de communication.</p></div>
+        <div class="journal-block"><div class="journal-block-title">💡 Ce qu'on a appris</div><p>Compréhension des règles de la compétition, analyse des contraintes techniques du robot.</p></div>
+        <div class="journal-block"><div class="journal-block-title">⚠️ Difficultés & solutions</div><p>Coordination des emplois du temps. Solution : planning hebdomadaire partagé mis en place.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="journal-entry reveal">
+    <div class="journal-header" onclick="toggleJournal(this)">
+      <span class="journal-week">S02 — 01 Avr 2026</span>
+      <span class="journal-title">Conception & choix des composants</span>
+      <span class="journal-status status-ongoing">En cours</span><span class="chevron">▼</span>
+    </div>
+    <div class="journal-body">
+      <div class="journal-grid">
+        <div class="journal-block"><div class="journal-block-title">✅ Ce qu'on a fait</div><p>Recherche et sélection des composants, premiers schémas du circuit, modélisation du châssis.</p></div>
+        <div class="journal-block"><div class="journal-block-title">💡 Ce qu'on a appris</div><p>Comparaison des microcontrôleurs, fonctionnement des capteurs IR et ultrasons.</p></div>
+        <div class="journal-block"><div class="journal-block-title">⚠️ Difficultés & solutions</div><p>Choix entre Arduino et ESP32 en cours d'analyse performance/complexité.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="journal-entry reveal" style="opacity:.32;pointer-events:none;">
+    <div class="journal-header">
+      <span class="journal-week">S03 — À venir</span>
+      <span class="journal-title">Prototypage & assemblage</span>
+      <span class="journal-status" style="background:rgba(255,255,255,.04);color:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.07)">Planifié</span>
+      <span class="chevron">▼</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VOTE -->
+<section id="vote" style="padding:3rem 2.5rem;">
+  <div class="vote-box reveal">
+    <div class="section-label" style="margin-bottom:1rem;">// Soutenez-nous</div>
+    <div class="vote-title">Votez pour Apex Dynamis</div>
+    <p class="vote-sub">La finale est le <strong style="color:var(--gold)">18 avril 2026</strong>. Votre vote populaire compte dans le score final. Aidez-nous à gagner !</p>
+    <div class="vote-btns">
+      <a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="btn-primary">♟ Voter maintenant</a>
+      <a href="https://eventslink.diginets.site/vote-nominee.php?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40&candidat=team-apex-dynamis" target="_blank" class="btn-secondary">Soutenir l'équipe</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">APEX <span>DYNAMIS</span></div>
+  <div class="footer-copy">© 2026 Team Apex Dynamis — ORC UCAO-UUC Bénin</div>
+  <div class="footer-copy">Finale le 18 avril 2026</div>
+</footer>
+
+<script>
+/* INTRO */
+window.addEventListener('load',()=>{setTimeout(()=>{const i=document.getElementById('intro');i.classList.add('out');setTimeout(()=>i.style.display='none',800);},2700);});
+
+/* DRAWER */
+function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('drawerOverlay').classList.add('open');document.getElementById('hamburger').classList.add('open');document.body.style.overflow='hidden';}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('drawerOverlay').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.body.style.overflow='';}
+let tX=0;
+document.getElementById('drawer').addEventListener('touchstart',e=>tX=e.touches[0].clientX,{passive:true});
+document.getElementById('drawer').addEventListener('touchend',e=>{if(tX-e.changedTouches[0].clientX>55)closeDrawer();},{passive:true});
+
+/* CURSOR TRAIL */
+if(window.innerWidth>768){const tr=[];for(let i=0;i<10;i++){const d=document.createElement('div');d.style.cssText=`position:fixed;width:${5-i*.4}px;height:${5-i*.4}px;border-radius:50%;background:rgba(196,0,255,${.52-i*.05});pointer-events:none;z-index:9999;transform:translate(-50%,-50%);box-shadow:0 0 ${6-i}px rgba(196,0,255,.35);`;document.body.appendChild(d);tr.push({el:d,x:0,y:0});}let mx=0,my=0;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});(function at(){let px=mx,py=my;tr.forEach((t,i)=>{t.x+=(px-t.x)*(.3-i*.02);t.y+=(py-t.y)*(.3-i*.02);t.el.style.left=t.x+'px';t.el.style.top=t.y+'px';px=t.x;py=t.y;});requestAnimationFrame(at);})();}
+
+/* PARTICLES */
+const cv=document.createElement('canvas');cv.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;';document.getElementById('hero').appendChild(cv);
+const cx=cv.getContext('2d');let W,H;function rsz(){W=cv.width=cv.offsetWidth;H=cv.height=cv.offsetHeight;}rsz();window.addEventListener('resize',rsz);
+const ps=[];for(let i=0;i<65;i++)ps.push({x:Math.random()*1200,y:Math.random()*800,r:Math.random()*1.3+.3,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,a:Math.random()*.5+.1,c:Math.random()>.5?'196,0,255':'245,197,24'});
+(function dp(){cx.clearRect(0,0,W,H);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(${p.c},${p.a})`;cx.fill();});for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){const dx=ps[i].x-ps[j].x,dy=ps[i].y-ps[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<85){cx.beginPath();cx.moveTo(ps[i].x,ps[i].y);cx.lineTo(ps[j].x,ps[j].y);cx.strokeStyle=`rgba(196,0,255,${.06*(1-d/85)})`;cx.lineWidth=.5;cx.stroke();}}requestAnimationFrame(dp);})();
+
+/* GLITCH */
+const h1=document.querySelector('h1');
+function glitch(){h1.style.textShadow=`${(Math.random()-.5)*6}px 0 rgba(196,0,255,.8),${(Math.random()-.5)*6}px 0 rgba(245,197,24,.5)`;setTimeout(()=>h1.style.textShadow='',80);}
+setInterval(glitch,3500);setInterval(()=>{if(Math.random()>.72)glitch();},600);
+
+/* REVEAL */
+const io=new IntersectionObserver((entries)=>{let d=0;entries.forEach(e=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),d);d+=70;}});},{threshold:.07});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* PROGRESS */
+document.querySelectorAll('.progress-fill').forEach(bar=>{const t=bar.dataset.w;const bo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setTimeout(()=>{bar.style.width=t;},300);bo.unobserve(bar);}});},{threshold:.5});bo.observe(bar);});
+
+/* JOURNAL */
+function toggleJournal(h){const e=h.parentElement,b=e.querySelector('.journal-body');e.classList.toggle('open');b.classList.toggle('open');}
+
+/* 3D TILT */
+if(window.innerWidth>768){document.querySelectorAll('.member-card').forEach(card=>{card.addEventListener('mousemove',e=>{const r=card.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;card.style.transform=`translateY(-5px) rotateX(${-y/24}deg) rotateY(${x/24}deg)`;card.style.boxShadow=`${-x/10}px ${-y/10}px 26px rgba(196,0,255,.2)`;});card.addEventListener('mouseleave',()=>{card.style.transform='';card.style.boxShadow='';});});}
+
+/* VOTE GLOW */
+const vb=document.querySelector('.vote-box');let gv=0,gd=1;
+(function pg(){gv+=.016*gd;if(gv>=1)gd=-1;if(gv<=0)gd=1;vb.style.boxShadow=`0 0 ${55+gv*38}px rgba(196,0,255,${.09+gv*.13}),inset 0 0 ${25+gv*16}px rgba(196,0,255,${.025+gv*.035})`;requestAnimationFrame(pg);})();
+
+/* RIPPLE */
+document.querySelectorAll('.btn-primary,.btn-secondary,.btn-outline,.drawer-vote').forEach(btn=>{btn.addEventListener('click',function(e){const rip=document.createElement('span'),rect=btn.getBoundingClientRect(),sz=Math.max(rect.width,rect.height)*2;rip.style.cssText=`position:absolute;border-radius:50%;width:${sz}px;height:${sz}px;left:${e.clientX-rect.left-sz/2}px;top:${e.clientY-rect.top-sz/2}px;background:rgba(255,255,255,.22);transform:scale(0);animation:rA .6s linear;pointer-events:none;`;btn.appendChild(rip);setTimeout(()=>rip.remove(),600);});});
+const ss=document.createElement('style');ss.textContent='@keyframes rA{to{transform:scale(1);opacity:0;}}@keyframes fUp{0%,100%{transform:translateY(0);opacity:.28;}50%{transform:translateY(-24px);opacity:.75;}}';document.head.appendChild(ss);
+
+/* VOTE PARTICLES */
+const vs=document.getElementById('vote');vs.style.position='relative';
+for(let i=0;i<10;i++){const p=document.createElement('div'),sz=Math.random()*3+1.5;p.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:rgba(196,0,255,${Math.random()*.3+.1});left:${Math.random()*100}%;top:${Math.random()*100}%;animation:fUp ${Math.random()*4+4}s ease-in-out infinite;animation-delay:${Math.random()*4}s;pointer-events:none;z-index:0;`;vs.appendChild(p);}
+
+/* DASHBOARD */
+const TEAMS=[{name:'Apex Dynamis',apex:true},{name:'GhostBuster',apex:false},{name:'Nova Tech',apex:false},{name:'Team Pixel',apex:false},{name:'The Winners',apex:false},{name:'Wario Tech',apex:false}];
+function renderDash(data){const sorted=[...data].sort((a,b)=>(b.votes||0)-(a.votes||0));const max=Math.max(...sorted.map(t=>t.votes||0))||1;document.getElementById('teamsGrid').innerHTML=sorted.map((t,i)=>`<div class="trow ${t.apex?'apex':''}"><div class="trank ${i===0?'g':i===1?'s':i===2?'b':''}">${i+1}</div><div class="tinfo"><div class="tname ${t.apex?'apex-n':''}">${t.apex?'♟ ':''}${t.name}${t.apex?' (Nous)':''}</div><div class="vbar-wrap"><div class="vbar ${t.apex?'':'other'}" style="width:${t.votes?Math.round(t.votes/max*100):0}%"></div></div></div><div class="tvotes ${t.votes?'':'dim'}">${t.votes!=null?t.votes+'v':'—'}</div></div>`).join('');setTimeout(()=>{document.querySelectorAll('.vbar').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>b.style.width=w,50);});},100);}
+async function fetchDash(){try{const res=await fetch('https://eventslink.diginets.site/api/votes?slug=olympiade-de-robotique-ucao-2026-69af11ed33d40',{mode:'cors'});const json=await res.json();renderDash(TEAMS.map(t=>({...t,votes:json[t.name]||null})));}catch(e){renderDash(TEAMS.map(t=>({...t,votes:null})));}}
+renderDash(TEAMS.map(t=>({...t,votes:null})));fetchDash();setInterval(fetchDash,30000);
+</script>
+</body>
+</html>
